@@ -597,6 +597,7 @@ lept_type lept_get_type(const lept_value *v) {
 
 int lept_is_equal(const lept_value *lhs, const lept_value *rhs) {
   size_t i;
+  lept_value *v;
   assert(lhs != NULL && rhs != NULL);
   if (lhs->type != rhs->type) {
     return 0;
@@ -623,8 +624,8 @@ int lept_is_equal(const lept_value *lhs, const lept_value *rhs) {
       }
       for (i = 0; i < lhs->u.o.size; i++) {
         // to fix
-        if (lept_find_object_value(rhs, lhs->u.o.m[i].k, lhs->u.o.m[i].klen) ==
-            NULL) {
+        v = lept_find_object_value(rhs, lhs->u.o.m[i].k, lhs->u.o.m[i].klen);
+        if (v == NULL || v != &lhs->u.o.m[i].v) {
           return 0;
         }
       }
