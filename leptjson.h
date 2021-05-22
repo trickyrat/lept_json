@@ -3,8 +3,7 @@
 
 #include <stddef.h> /*size_t*/
 
-typedef enum
-{
+typedef enum {
   LEPT_NULL,
   LEPT_FALSE,
   LEPT_TRUE,
@@ -19,23 +18,18 @@ typedef enum
 typedef struct lept_value lept_value;
 typedef struct lept_member lept_member;
 
-struct lept_value
-{
-  union
-  {
+struct lept_value {
+  union {
     double n;
-    struct
-    {
+    struct {
       char *s;
       size_t len;
     } s;
-    struct
-    {
+    struct {
       lept_value *e;
       size_t size, capacity;
     } a;
-    struct
-    {
+    struct {
       lept_member *m;
       size_t size, capacity;
     } o;
@@ -43,15 +37,13 @@ struct lept_value
   lept_type type;
 };
 
-struct lept_member
-{
+struct lept_member {
   char *k;
   size_t klen;
   lept_value v;
 };
 
-enum
-{
+enum {
   LEPT_PARSE_OK = 0,
   LEPT_PARSE_EXPECT_VALUE,
   LEPT_PARSE_INVALID_VALUE,
@@ -69,8 +61,7 @@ enum
 };
 
 #define lept_init(v)       \
-  do                       \
-  {                        \
+  do {                     \
     (v)->type = LEPT_NULL; \
   } while (0)
 
@@ -119,7 +110,8 @@ void lept_clear_object(lept_value *v);
 const char *lept_get_object_key(const lept_value *v, size_t index);
 size_t lept_get_object_key_length(const lept_value *v, size_t index);
 lept_value *lept_get_object_value(lept_value *v, size_t index);
-size_t lept_find_object_index(const lept_value *v, const char *key, size_t klen);
+size_t lept_find_object_index(const lept_value *v, const char *key,
+                              size_t klen);
 lept_value *lept_find_object_value(lept_value *v, const char *key, size_t klen);
 lept_value *lept_set_object_value(lept_value *v, const char *key, size_t klen);
 void lept_remove_object_value(lept_value *v, size_t index);
