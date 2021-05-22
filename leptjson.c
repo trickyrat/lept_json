@@ -539,8 +539,10 @@ void lept_copy(lept_value *dst, const lept_value *src) {
       lept_set_object(dst, src->u.o.capacity);
       dst->u.o.size = src->u.o.size;
       for (i = 0; i < src->u.o.size; i++) {
+        dst->u.o.m[i].k = (char *)malloc(src->u.o.m[i].klen * sizeof(char));
         memcpy(&dst->u.o.m[i].k, &src->u.o.m[i].k, src->u.o.m[i].klen);
-        memcpy(&dst->u.o.m[i].v, &src->u.o.m[i].v, sizeof(lept_value));
+        //memcpy(&dst->u.o.m[i].v, &src->u.o.m[i].v, sizeof(lept_value));
+        dst->u.o.m[i].v = src->u.o.m[i].v;
         dst->u.o.m[i].klen = src->u.o.m[i].klen;
       }
       break;
