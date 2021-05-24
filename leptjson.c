@@ -537,14 +537,14 @@ void lept_copy(lept_value *dst, const lept_value *src) {
       dst->u.a.size = src->u.a.size;
       break;
     case LEPT_OBJECT:
-      lept_set_object(dst, src->u.o.size);   
+      lept_set_object(dst, src->u.o.size);
       for (i = 0; i < src->u.o.size; i++) {
         dst->u.o.m[i].klen = src->u.o.m[i].klen;
         dst->u.o.m[i].k = (char *)malloc(dst->u.o.m[i].klen + 1);
         memcpy(dst->u.o.m[i].k, src->u.o.m[i].k, dst->u.o.m[i].klen);
         dst->u.o.m[i].k[dst->u.o.m[i].klen] = '\0';
         lept_init(&dst->u.o.m[i].v);
-        lept_copy(&dst->u.o.m[i].v, &src->u.o.m[i].v);   
+        lept_copy(&dst->u.o.m[i].v, &src->u.o.m[i].v);
       }
       dst->u.o.size = src->u.o.size;
       break;
@@ -707,8 +707,7 @@ void lept_reserve_array(lept_value *v, size_t capacity) {
   assert(v != NULL && v->type == LEPT_ARRAY);
   if (v->u.a.capacity < capacity) {
     v->u.a.capacity = capacity;
-    v->u.a.e =
-        (lept_value *)realloc(v->u.a.e, capacity * sizeof(lept_value));
+    v->u.a.e = (lept_value *)realloc(v->u.a.e, capacity * sizeof(lept_value));
   }
 }
 
@@ -758,10 +757,16 @@ lept_value *lept_insert_array_element(lept_value *v, size_t index) {
 }
 
 void lept_erase_array_element(lept_value *v, size_t index, size_t count) {
-  assert(v != NULL && v->type == LEPT_ARRAY);
+  assert(v != NULL && v->type == LEPT_ARRAY && index + count <= v->u.a.size);
   size_t i;
-  assert(index + count <= v->u.a.size);
   if (!count) {
+    return;
+  }
+  if (count == v->u.a.size) {
+    while (v->u.a.size > 0) {
+      lept_free(&v->u.a.e[--v->u.a.size]);
+    }
+    v->u.a.size = 0;
     return;
   }
   for (i = index; i < index + count; i++) {
