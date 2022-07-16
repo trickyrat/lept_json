@@ -1,2 +1,8 @@
-build/*
-.vscode/*
+build/
+.vscode/
+out/
+CMakeFiles/
+cmake-build*/
+.idea/
+.vs/
+bin/
