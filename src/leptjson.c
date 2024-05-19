@@ -463,7 +463,7 @@ static void lept_stringify_string(lept_context *c, const char *s, size_t len) {
   c->top -= size - (p - head);
 }
 
-static int lept_stringify_value(lept_context *c, const lept_value *v) {
+static void lept_stringify_value(lept_context *c, const lept_value *v) {
   size_t i;
   switch (v->type) {
     case LEPT_NULL:
