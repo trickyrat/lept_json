@@ -819,7 +819,6 @@ void lept_shrink_object(lept_value *v) {
 
 void lept_clear_object(lept_value *v) {
   assert(v != NULL && v->type == LEPT_OBJECT);
-  size_t i;
   while (v->u.o.size > 0) {
     lept_member *m = &v->u.o.m[--v->u.o.size];
     free(m->k);
