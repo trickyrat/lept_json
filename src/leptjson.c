@@ -854,7 +854,7 @@ size_t lept_find_object_index(const lept_value *v, const char *key,
   return LEPT_KEY_NOT_EXIST;
 }
 
-lept_value *lept_find_object_value(lept_value *v, const char *key,
+lept_value *lept_find_object_value(const lept_value *v, const char *key,
                                    size_t klen) {
   size_t index = lept_find_object_index(v, key, klen);
   return index != LEPT_KEY_NOT_EXIST ? &v->u.o.m[index].v : NULL;
